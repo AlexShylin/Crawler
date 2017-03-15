@@ -1,5 +1,8 @@
 package com.gd.ashylin.crawler;
 
+import com.gd.ashylin.crawler.health.HealthService;
+import com.gd.ashylin.crawler.health.HealthServiceImpl;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

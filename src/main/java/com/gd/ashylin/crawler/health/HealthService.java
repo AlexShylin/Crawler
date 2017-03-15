@@ -1,4 +1,4 @@
-package com.gd.ashylin.crawler;
+package com.gd.ashylin.crawler.health;
 
 
 public interface HealthService {
