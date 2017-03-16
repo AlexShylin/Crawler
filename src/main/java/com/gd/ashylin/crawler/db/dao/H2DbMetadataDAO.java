@@ -3,18 +3,21 @@ package com.gd.ashylin.crawler.db.dao;
 import com.gd.ashylin.crawler.db.entity.DbMetadata;
 import com.gd.ashylin.crawler.db.entity.Details;
 import com.gd.ashylin.crawler.db.entity.Summary;
+import org.apache.commons.dbcp.BasicDataSource;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
 public class H2DbMetadataDAO implements DbMetadataDAO {
 
+//    private Context context;
+//    private DataSource dataSource;
+    private BasicDataSource basicDataSource;
     private Connection connection;
     private DatabaseMetaData databaseMetaData;
 
@@ -22,18 +25,19 @@ public class H2DbMetadataDAO implements DbMetadataDAO {
     private static final String LABEL = "H2 database";
 
     // Connection credentials
-    String connectionString;
-    String user;
-    String password;
-    Properties properties;
+    private String connectionString;
+    private String user;
+    private String password;
+    private String driver;
+    private Properties properties;
 
-    static {
-        try {
-            Class.forName("org.h2.Driver");
-        } catch (ClassNotFoundException e) {
-            // TODO logging
-        }
-    }
+//    static {
+//        try {
+//            Class.forName("org.h2.Driver");
+//        } catch (ClassNotFoundException e) {
+//            // TODO logging
+//        }
+//    }
 
     {
         properties = new Properties();
@@ -46,9 +50,22 @@ public class H2DbMetadataDAO implements DbMetadataDAO {
             connectionString = properties.getProperty("connection");
             user = properties.getProperty("user");
             password = properties.getProperty("password");
+            driver = properties.getProperty("driver");
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+    }
+
+    {
+        basicDataSource = new BasicDataSource();
+        basicDataSource.setDriverClassName(driver);
+        basicDataSource.setUsername(user);
+        basicDataSource.setPassword(password);
+        basicDataSource.setUrl(connectionString);
+
+        basicDataSource.setMinIdle(5);
+        basicDataSource.setMaxIdle(20);
+        basicDataSource.setMaxOpenPreparedStatements(180);
     }
 
 
@@ -58,7 +75,12 @@ public class H2DbMetadataDAO implements DbMetadataDAO {
         Details details;
 
         try {
-            connection = DriverManager.getConnection(connectionString, user, password);
+//            connection = DriverManager.getConnection(connectionString, user, password);
+//            context = new InitialContext();
+//            dataSource = (DataSource) context.lookup("jdbc/h2");
+//            connection = dataSource.getConnection();
+            connection = basicDataSource.getConnection();
+
             databaseMetaData = connection.getMetaData();
 
             String productName = databaseMetaData.getDatabaseProductName();
