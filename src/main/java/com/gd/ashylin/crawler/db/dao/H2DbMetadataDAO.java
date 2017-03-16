@@ -13,12 +13,13 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class MySqlDbMetadataDAO implements DbMetadataDAO {
+public class H2DbMetadataDAO implements DbMetadataDAO {
+
     private Connection connection;
     private DatabaseMetaData databaseMetaData;
 
     // String resources
-    private static final String LABEL = "MySQL database";
+    private static final String LABEL = "H2 database";
 
     // Connection credentials
     String connectionString;
@@ -28,7 +29,7 @@ public class MySqlDbMetadataDAO implements DbMetadataDAO {
 
     static {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("org.h2.Driver");
         } catch (ClassNotFoundException e) {
             // TODO logging
         }
@@ -38,7 +39,7 @@ public class MySqlDbMetadataDAO implements DbMetadataDAO {
         properties = new Properties();
         try {
             ClassLoader classLoader = getClass().getClassLoader();
-            File file = new File(classLoader.getResource("MySqlConnectionCredentials.properties").getFile());
+            File file = new File(classLoader.getResource("h2ConnectionCredentials.properties").getFile());
             properties.load(new FileInputStream(file));
 
             // loading properties
@@ -50,10 +51,11 @@ public class MySqlDbMetadataDAO implements DbMetadataDAO {
         }
     }
 
+
     public DbMetadata getDbMetadata() {
-        DbMetadata meta = null;
-        Summary summary = null;
-        Details details = null;
+        DbMetadata meta;
+        Summary summary;
+        Details details;
 
         try {
             connection = DriverManager.getConnection(connectionString, user, password);

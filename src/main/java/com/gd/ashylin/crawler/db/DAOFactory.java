@@ -11,10 +11,13 @@ public abstract class DAOFactory {
 
     public abstract DbMetadataDAO getDbMetadataDAO();
 
+
     public static DAOFactory getDAOFactory(int dbIndex) {
         switch (dbIndex) {
             case 1:
                 return new MySqlDAOFactory();
+            case 2:
+                return new H2DAOFactory();
             default:
                 return null;
         }
