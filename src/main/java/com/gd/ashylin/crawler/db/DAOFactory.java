@@ -6,20 +6,15 @@ import com.gd.ashylin.crawler.db.dao.DbMetadataDAO;
  * Oracle DAO implementation
  */
 public abstract class DAOFactory {
-    // db indexes
-    public static final int MYSQL = 1;
 
     public abstract DbMetadataDAO getDbMetadataDAO();
 
 
-    public static DAOFactory getDAOFactory(int dbIndex) {
-        switch (dbIndex) {
-            case 1:
-                return new MySqlDAOFactory();
-            case 2:
-                return new H2DAOFactory();
-            default:
-                return null;
-        }
+    public static DAOFactory getH2DAOFactory() {
+        return new H2DAOFactory();
+    }
+
+    public static DAOFactory getH2DAOFactory(String connectionString, String user, String password, String driver) {
+        return new H2DAOFactory(connectionString, user, password, driver);
     }
 }

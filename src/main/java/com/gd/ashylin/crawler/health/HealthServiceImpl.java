@@ -12,7 +12,7 @@ public class HealthServiceImpl implements HealthService {
 
     public String healthCheck() {
         // creating DAO, doing health checks, getting DBMS metadata
-        DAOFactory daoFactory = DAOFactory.getDAOFactory(1);
+        DAOFactory daoFactory = DAOFactory.getH2DAOFactory();
         DbMetadataDAO dbMetadataDAO = daoFactory.getDbMetadataDAO();
         DbMetadata dbMetadata = dbMetadataDAO.getDbMetadata();
 

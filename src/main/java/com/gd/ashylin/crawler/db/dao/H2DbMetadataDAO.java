@@ -5,69 +5,33 @@ import com.gd.ashylin.crawler.db.entity.Details;
 import com.gd.ashylin.crawler.db.entity.Summary;
 import org.apache.commons.dbcp.BasicDataSource;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
+import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 
 public class H2DbMetadataDAO implements DbMetadataDAO {
 
-//    private Context context;
-//    private DataSource dataSource;
-    private BasicDataSource basicDataSource;
+    // connection resources
     private Connection connection;
-    private DatabaseMetaData databaseMetaData;
+    private DataSource dataSource;
 
     // String resources
     private static final String LABEL = "H2 database";
 
-    // Connection credentials
-    private String connectionString;
-    private String user;
-    private String password;
-    private String driver;
-    private Properties properties;
+    // common fields
+    DatabaseMetaData databaseMetaData;
 
-//    static {
-//        try {
-//            Class.forName("org.h2.Driver");
-//        } catch (ClassNotFoundException e) {
-//            // TODO logging
-//        }
-//    }
 
-    {
-        properties = new Properties();
-        try {
-            ClassLoader classLoader = getClass().getClassLoader();
-            File file = new File(classLoader.getResource("h2ConnectionCredentials.properties").getFile());
-            properties.load(new FileInputStream(file));
-
-            // loading properties
-            connectionString = properties.getProperty("connection");
-            user = properties.getProperty("user");
-            password = properties.getProperty("password");
-            driver = properties.getProperty("driver");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+    public H2DbMetadataDAO(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
-    {
-        basicDataSource = new BasicDataSource();
-        basicDataSource.setDriverClassName(driver);
-        basicDataSource.setUsername(user);
-        basicDataSource.setPassword(password);
-        basicDataSource.setUrl(connectionString);
 
-        basicDataSource.setMinIdle(5);
-        basicDataSource.setMaxIdle(20);
-        basicDataSource.setMaxOpenPreparedStatements(180);
-    }
-
+    /*
+     * Implemented methods
+     */
 
     public DbMetadata getDbMetadata() {
         DbMetadata meta;
@@ -75,12 +39,7 @@ public class H2DbMetadataDAO implements DbMetadataDAO {
         Details details;
 
         try {
-//            connection = DriverManager.getConnection(connectionString, user, password);
-//            context = new InitialContext();
-//            dataSource = (DataSource) context.lookup("jdbc/h2");
-//            connection = dataSource.getConnection();
-            connection = basicDataSource.getConnection();
-
+            establishConnection();
             databaseMetaData = connection.getMetaData();
 
             String productName = databaseMetaData.getDatabaseProductName();
@@ -90,24 +49,42 @@ public class H2DbMetadataDAO implements DbMetadataDAO {
             summary = new Summary(STATUS_OK, MESSAGE_HEALTH_PASSED);
             details = new Details(STATUS_OK, MESSAGE_DB_AVAILABLE, LABEL, productName, productVersion);
             meta = new DbMetadata(summary, details);
-        } catch (SQLException e) {
+        } catch (NullPointerException | SQLException e) {
+            e.printStackTrace();
             // TODO logging
+
             summary = new Summary(STATUS_ERROR, MESSAGE_HEALTH_DB_FAIL);
-            details = new Details(STATUS_ERROR, MESSAGE_DB_UNAVAILABLE, LABEL, null, null);
+            details = new Details(STATUS_ERROR, MESSAGE_DB_UNAVAILABLE, LABEL, STATUS_ERROR, STATUS_ERROR);
             meta = new DbMetadata(summary, details);
         } finally {
-            closeResources();
+            closeConnection();
         }
 
         return meta;
     }
 
-    private void closeResources() {
+
+
+    /*
+     * Connection control
+     */
+
+    private void establishConnection() throws SQLException {
+        if (dataSource instanceof BasicDataSource) {
+            BasicDataSource bds = (BasicDataSource) dataSource;
+            connection = DriverManager.getConnection(bds.getUrl(), bds.getUsername(), bds.getPassword());
+        } else {
+            connection = dataSource.getConnection();
+        }
+    }
+
+    private void closeConnection() {
         try {
             if (connection != null) {
                 connection.close();
             }
         } catch (SQLException e) {
+            e.printStackTrace();
             // TODO logging
         }
     }
