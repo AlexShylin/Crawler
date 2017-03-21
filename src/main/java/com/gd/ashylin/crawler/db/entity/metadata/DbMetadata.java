@@ -1,5 +1,8 @@
-package com.gd.ashylin.crawler.db.entity;
+package com.gd.ashylin.crawler.db.entity.metadata;
 
+/**
+ * @author Alexander Shylin
+ */
 public class DbMetadata {
     private Summary summary;
     private Details details;

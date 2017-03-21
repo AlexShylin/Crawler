@@ -1,13 +1,16 @@
 package com.gd.ashylin.crawler;
 
-import com.gd.ashylin.crawler.health.HealthService;
-import com.gd.ashylin.crawler.health.HealthServiceImpl;
+import com.gd.ashylin.crawler.service.HealthService;
+import com.gd.ashylin.crawler.service.HealthServiceImpl;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * @author Alexander Shylin
+ */
 public class HealthServlet extends HttpServlet {
 
     private HealthService healthService = new HealthServiceImpl();

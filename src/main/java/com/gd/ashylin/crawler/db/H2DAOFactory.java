@@ -1,7 +1,6 @@
 package com.gd.ashylin.crawler.db;
 
-import com.gd.ashylin.crawler.db.dao.DbMetadataDAO;
-import com.gd.ashylin.crawler.db.dao.H2DbMetadataDAO;
+import com.gd.ashylin.crawler.db.dao.*;
 import org.apache.commons.dbcp.BasicDataSource;
 
 import javax.naming.Context;
@@ -9,6 +8,9 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+/**
+ * @author Alexander Shylin
+ */
 public class H2DAOFactory extends DAOFactory {
 
     private Context context;
@@ -35,7 +37,19 @@ public class H2DAOFactory extends DAOFactory {
         ((BasicDataSource) dataSource).setUrl(connectionString);
     }
 
+    @Override
     public DbMetadataDAO getDbMetadataDAO() {
         return new H2DbMetadataDAO(dataSource);
     }
+
+    @Override
+    public CrawlerDAO getCrawlerDAO() {
+        return new H2CrawlerDAO(dataSource);
+    }
+
+    @Override
+    public ScrapResultDAO getScrapResultDAO() {
+        return new H2ScrapResultDAO(dataSource);
+    }
+
 }

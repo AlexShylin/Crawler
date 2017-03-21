@@ -1,7 +1,7 @@
 package com.gd.ashylin.crawler.db;
 
 import com.gd.ashylin.crawler.db.dao.DbMetadataDAO;
-import com.gd.ashylin.crawler.db.entity.DbMetadata;
+import com.gd.ashylin.crawler.db.entity.metadata.DbMetadata;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

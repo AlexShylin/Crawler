@@ -1,28 +1,20 @@
 package com.gd.ashylin.crawler.db.dao;
 
-import com.gd.ashylin.crawler.db.entity.DbMetadata;
-import com.gd.ashylin.crawler.db.entity.Details;
-import com.gd.ashylin.crawler.db.entity.Summary;
-import org.apache.commons.dbcp.BasicDataSource;
+import com.gd.ashylin.crawler.db.entity.metadata.DbMetadata;
+import com.gd.ashylin.crawler.db.entity.metadata.Details;
+import com.gd.ashylin.crawler.db.entity.metadata.Summary;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
 import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class H2DbMetadataDAO implements DbMetadataDAO {
-
-    // connection resources
-    private Connection connection;
-    private DataSource dataSource;
+/**
+ * @author Alexander Shylin
+ */
+public class H2DbMetadataDAO extends ConnectionControl implements DbMetadataDAO {
 
     // String resources
     private static final String LABEL = "H2 database";
-
-    // common fields
-    DatabaseMetaData databaseMetaData;
-
 
     public H2DbMetadataDAO(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -33,6 +25,7 @@ public class H2DbMetadataDAO implements DbMetadataDAO {
      * Implemented methods
      */
 
+    @Override
     public DbMetadata getDbMetadata() {
         DbMetadata meta;
         Summary summary;
@@ -40,7 +33,7 @@ public class H2DbMetadataDAO implements DbMetadataDAO {
 
         try {
             establishConnection();
-            databaseMetaData = connection.getMetaData();
+            DatabaseMetaData databaseMetaData = connection.getMetaData();
 
             String productName = databaseMetaData.getDatabaseProductName();
             String productVersion = databaseMetaData.getDatabaseProductVersion();
@@ -63,29 +56,4 @@ public class H2DbMetadataDAO implements DbMetadataDAO {
         return meta;
     }
 
-
-
-    /*
-     * Connection control
-     */
-
-    private void establishConnection() throws SQLException {
-        if (dataSource instanceof BasicDataSource) {
-            BasicDataSource bds = (BasicDataSource) dataSource;
-            connection = DriverManager.getConnection(bds.getUrl(), bds.getUsername(), bds.getPassword());
-        } else {
-            connection = dataSource.getConnection();
-        }
-    }
-
-    private void closeConnection() {
-        try {
-            if (connection != null) {
-                connection.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // TODO logging
-        }
-    }
 }

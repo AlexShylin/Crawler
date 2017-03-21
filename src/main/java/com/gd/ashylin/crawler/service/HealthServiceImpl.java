@@ -1,17 +1,19 @@
-package com.gd.ashylin.crawler.health;
-
+package com.gd.ashylin.crawler.service;
 
 import com.gd.ashylin.crawler.db.DAOFactory;
 import com.gd.ashylin.crawler.db.dao.DbMetadataDAO;
-import com.gd.ashylin.crawler.db.entity.DbMetadata;
+import com.gd.ashylin.crawler.db.entity.metadata.DbMetadata;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
 
+/**
+ * @author Alexander Shylin
+ */
 public class HealthServiceImpl implements HealthService {
 
     public String healthCheck() {
-        // creating DAO, doing health checks, getting DBMS metadata
+        // creating DAO, doing service checks, getting DBMS metadata
         DAOFactory daoFactory = DAOFactory.getH2DAOFactory();
         DbMetadataDAO dbMetadataDAO = daoFactory.getDbMetadataDAO();
         DbMetadata dbMetadata = dbMetadataDAO.getDbMetadata();
