@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Crawler Service v1 -->
+
+    <bean id="crawlersServiceV1" class="com.gd.ashylin.crawler.service.v1.CrawlersServiceV1">
+        <property name="requestValidator" ref="requestValidator"/>
+        <property name="processingCrawlers" ref="concurrentMap"/>
+        <property name="crawlerDAO" ref="crawlerDAO"/>
+        <property name="crawlerFactory" ref="crawlerFactory"/>
+    </bean>
+
+    <bean id="crawlerFactory" class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
+        <property name="targetBeanName">
+            <idref bean="crawler"/>
+        </property>
+    </bean>
+
+
+    <!-- Crawler Service v2 -->
+
+    <bean id="crawlersServiceV2" class="com.gd.ashylin.crawler.service.v2.CrawlersServiceV2">
+        <property name="requestValidator" ref="requestValidator"/>
+        <property name="processingCrawlers" ref="concurrentMap"/>
+        <property name="crawlerDAO" ref="crawlerDAO"/>
+        <property name="crawlerManagerFactory" ref="crawlerManagerFactory"/>
+    </bean>
+
+    <bean id="crawlerManagerFactory" class="org.springframework.beans.factory.config.ObjectFactoryCreatingFactoryBean">
+        <property name="targetBeanName">
+            <idref bean="crawlerThreadManager"/>
+        </property>
+    </bean>
+
+
+
+
+    <bean name="requestValidator" class="com.gd.ashylin.crawler.service.validator.RequestValidatorImpl">
+        <property name="validatorUtil" ref="validatorUtil"/>
+    </bean>
+
+    <bean name="validatorUtil" class="com.gd.ashylin.crawler.service.validator.ValidatorUtilImpl"/>
+
+    <bean id="concurrentMap" class="java.util.concurrent.ConcurrentHashMap"/>
+
+</beans>

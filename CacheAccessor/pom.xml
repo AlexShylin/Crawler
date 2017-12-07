@@ -2,12 +2,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.griddynamics.ashylin.crawler</groupId>
-    <artifactId>crawler-project</artifactId>
-    <packaging>pom</packaging>
-    <version>2.0-SNAPSHOT</version>
-    <name>Crawler Griddynamics Study App</name>
-    <url>http://maven.apache.org</url>
-
+    <artifactId>cache-accessor</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0-SNAPSHOT</version>
     <build>
         <plugins>
             <plugin>
@@ -20,12 +17,24 @@
             </plugin>
         </plugins>
     </build>
+    <name>Crawler Cache Accessor</name>
+    <url>http://maven.apache.org</url>
 
-    <modules>
-        <module>Crawler</module>
-        <module>CacheServer</module>
-        <module>CrawlerBindings</module>
-        <module>CacheRequestValidator</module>
-        <module>CacheAccessor</module>
-    </modules>
+    <dependencies>
+
+        <dependency>
+            <groupId>com.griddynamics.ashylin.cache.valid</groupId>
+            <artifactId>cache-request-validator</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+
+    </dependencies>
+
+
 </project>

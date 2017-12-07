@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="runner" class="com.gd.ashylin.cache.server.CacheRunner">
+        <property name="jobExecutor" ref="jobExecutor"/>
+    </bean>
+
+    <bean id="jobExecutor" class="com.gd.ashylin.cache.server.job.CacheJobExecutorImpl">
+        <!-- port which to be listened -->
+        <property name="port" value="9750"/>
+
+        <!-- Cache initial size.
+        ATTENTION! Cache resize is very expensive operation. Initial size must be chosen properly -->
+        <property name="initialCacheSize" value="2000"/>
+
+        <!-- number of threads processing requests -->
+        <property name="maxPoolSize" value="150"/>
+
+        <property name="cleaner" ref="cleaner"/>
+    </bean>
+
+    <bean id="cleaner" class="com.gd.ashylin.cache.server.job.cleaner.ExpiredTtlDataCleanerImpl">
+        <!-- cleaner sleep time in milliseconds -->
+        <property name="timeToSleep" value="20000"/>
+        <property name="cacheJobExecutor" ref="jobExecutor"/>
+    </bean>
+</beans>

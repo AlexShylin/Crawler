@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Crawler v1 -->
+
+    <bean id="crawler" class="com.gd.ashylin.crawler.crawler.v1.CrawlerImpl" scope="prototype">
+        <property name="urlUtil" ref="urlUtil"/>
+        <property name="pageDataSource" ref="pageDataSource"/>
+    </bean>
+
+    <bean id="urlUtil" class="com.gd.ashylin.crawler.crawler.util.UrlUtil"/>
+
+    <bean id="pageDataSource" class="com.gd.ashylin.crawler.crawler.util.JsoupDataSource"/>
+
+
+    <!-- Crawler v2 -->
+
+    <bean id="crawlerThreadManager" class="com.gd.ashylin.crawler.crawler.v2.CrawlerMultiThreadManagerImpl" scope="prototype">
+        <property name="cache" ref="cache"/>
+    </bean>
+
+</beans>
