@@ -37,6 +37,11 @@ public class H2CrawlerDao implements CrawlerDao {
                     "join scrap_result as sr on res.id=sr.id_result\n" +
                     "where res.id=? order by sr.url %s limit ? offset ?;";
 
+    private static final String SELECT_STATS_BY_URL =
+            "select res.*, sr.id, sr.url, sr.sourceurl, sr.status, sr.response_time from result as res\n " +
+                    "join scrap_result as sr on res.id=sr.id_result\n" +
+                    "where sr.url=?;";
+
     private JdbcTemplate jdbcTemplate;
 
     /*
@@ -50,6 +55,11 @@ public class H2CrawlerDao implements CrawlerDao {
     }
 
     @Override
+    public Result getStatsByUrl(String url) {
+        return jdbcTemplate.queryForObject(SELECT_STATS_BY_URL, new Object[]{url}, new ResultRowMapper());
+    }
+
+    @Override
     public String getCrawlerStatus(long id) {
         return jdbcTemplate.queryForObject(SELECT_CRAWLER_STATUS, new Object[]{id}, String.class);
     }
@@ -58,18 +68,15 @@ public class H2CrawlerDao implements CrawlerDao {
     public long insertCrawler(Result result) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        jdbcTemplate.update(new PreparedStatementCreator() {
-            @Override
-            public PreparedStatement createPreparedStatement(Connection con) throws SQLException {
-                PreparedStatement preparedStatement = con.prepareStatement(INSERT_CRAWLER);
-                preparedStatement.setString(1, result.getStatus());
-                preparedStatement.setTimestamp(2, result.getTimestampLaunch());
-                preparedStatement.setTimestamp(3, result.getTimestampFinish());
-                preparedStatement.setString(4, result.getUrl());
-                preparedStatement.setInt(5, result.getThreads());
-                preparedStatement.setLong(6, result.getDelay());
-                return preparedStatement;
-            }
+        jdbcTemplate.update(con -> {
+            PreparedStatement preparedStatement = con.prepareStatement(INSERT_CRAWLER);
+            preparedStatement.setString(1, result.getStatus());
+            preparedStatement.setTimestamp(2, result.getTimestampLaunch());
+            preparedStatement.setTimestamp(3, result.getTimestampFinish());
+            preparedStatement.setString(4, result.getUrl());
+            preparedStatement.setInt(5, result.getThreads());
+            preparedStatement.setLong(6, result.getDelay());
+            return preparedStatement;
         }, keyHolder);
 
         return (long) keyHolder.getKey();

@@ -17,6 +17,8 @@ public interface CrawlerDao {
 
     Result getCrawlerById(long id, int offset, int pageSize, String sort);
 
+    Result getStatsByUrl(String url);
+
     String getCrawlerStatus(long id);
 
     List<ScrapResult> getScrapResult(long crawlerId, String search, String field);

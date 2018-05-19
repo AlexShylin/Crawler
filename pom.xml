@@ -22,10 +22,11 @@
     </build>
 
     <modules>
-        <module>Crawler</module>
-        <module>CacheServer</module>
-        <module>CrawlerBindings</module>
         <module>CacheRequestValidator</module>
+        <module>CacheServer</module>
         <module>CacheAccessor</module>
+        <module>CrawlerBindings</module>
+        <module>BigData</module>
+        <module>Crawler</module>
     </modules>
 </project>
