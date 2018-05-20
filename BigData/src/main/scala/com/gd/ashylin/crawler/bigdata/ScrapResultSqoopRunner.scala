@@ -14,6 +14,7 @@ case class ScrapResultData(id: Long,
                            statusScrap: String,
                            responseTime: Long) {}
 
+// TODO db configuration in properties
 object ScrapResultSqoopRunner {
   def getDataByTimestampLaunch(tmstFrom: Timestamp, tmstTo: Timestamp): Unit = {
 

@@ -10,10 +10,16 @@ object UrlStatisticsSparkDataResolver {
   val log: Logger = LogManager.getRootLogger
   val separator = "\t"
 
-  private[bigdata] def filePath: String = {
-    val resource = this.getClass.getClassLoader.getResource("urls.dat")
-    if (resource == null) log.error("Please download the dataset as explained in the assignment instructions")
-    new File(resource.toURI).getPath
+  val sqoopRawName = "scrap_data_raw"
+
+  // todo get from properties
+  val pathSqoopRawBucket = ""
+
+  val pathToSqoopRawData = s"$pathToSqoopRawData/$sqoopRawName"
+
+
+  private[bigdata] def filePathSqoopRaw(tmstLaunchFrom: Timestamp, tmstLaunchTo: Timestamp): String = {
+    new File(pathToSqoopRawData).getPath
   }
 
   private[bigdata] def parse(line: String): ScrapResultData = {
