@@ -3,6 +3,7 @@ package com.gd.ashylin.crawler.crawler.v2;
 import com.gd.ashylin.crawler.db.entity.Result;
 import com.gd.ashylin.crawler.marker.SlowPerformanceTest;
 import org.apache.log4j.Logger;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -34,6 +35,7 @@ public class CrawlerPerformanceTest {
 
     static final Logger LOGGER = Logger.getLogger(CrawlerPerformanceTest.class);
 
+    @Ignore
     @Test
     public void testCrawler() throws InterruptedException {
         String url = URL_1;
@@ -66,6 +68,7 @@ public class CrawlerPerformanceTest {
         LOGGER.info("Finished performance test Crawler v2 on " + url + durationString + elementsCount);
     }
 
+    @Ignore
     @Test
     public void testCrawler2() throws InterruptedException {
         String url = URL_2;
