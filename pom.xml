@@ -22,10 +22,7 @@
     </build>
 
     <modules>
-        <module>CacheRequestValidator</module>
-        <module>CacheServer</module>
-        <module>CacheAccessor</module>
-        <module>BigData</module>
-        <module>Crawler</module>
+        <module>bigdata</module>
+        <module>crawler</module>
     </modules>
 </project>
