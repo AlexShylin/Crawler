@@ -32,17 +32,6 @@
             <version>2.11.8</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.griddynamics.ashylin.crawler-bindings</groupId>
-            <artifactId>crawler-bindings</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-
-        <!--<dependency>-->
-            <!--<groupId>c</groupId>-->
-            <!--<artifactId></artifactId>-->
-        <!--</dependency>-->
-
         <!-- Spark dependencies -->
         <dependency>
             <groupId>org.apache.spark</groupId>

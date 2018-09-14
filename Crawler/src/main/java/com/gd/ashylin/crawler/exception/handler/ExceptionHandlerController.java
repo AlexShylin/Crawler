@@ -1,11 +1,11 @@
 package com.gd.ashylin.crawler.exception.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gd.ashylin.crawler.bindings.response.CrawlerErrorResponseBinding;
 import com.gd.ashylin.crawler.exception.ErrorNamesCodes;
 import com.gd.ashylin.crawler.exception.RelaunchCrawlerException;
 import com.gd.ashylin.crawler.exception.RequestParsingException;
 import com.gd.ashylin.crawler.exception.ValidationException;
-import com.gd.ashylin.crawler.binding.response.CrawlerErrorResponseBinding;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

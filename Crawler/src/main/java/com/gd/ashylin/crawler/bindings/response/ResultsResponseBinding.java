@@ -1,6 +1,6 @@
-package com.gd.ashylin.crawler.binding.response;
+package com.gd.ashylin.crawler.bindings.response;
 
-import com.gd.ashylin.crawler.binding.ScrapResultBinding;
+import com.gd.ashylin.crawler.bindings.ScrapResultBinding;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;

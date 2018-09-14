@@ -25,7 +25,6 @@
         <module>CacheRequestValidator</module>
         <module>CacheServer</module>
         <module>CacheAccessor</module>
-        <module>CrawlerBindings</module>
         <module>BigData</module>
         <module>Crawler</module>
     </modules>

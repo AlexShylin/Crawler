@@ -1,4 +1,4 @@
-package com.gd.ashylin.crawler.binding.request.v1;
+package com.gd.ashylin.crawler.bindings.request.v1;
 
 /**
  * @author Alexander Shylin

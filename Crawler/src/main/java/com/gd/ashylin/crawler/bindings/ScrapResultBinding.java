@@ -1,4 +1,4 @@
-package com.gd.ashylin.crawler.binding;
+package com.gd.ashylin.crawler.bindings;
 
 /**
  * @author Alexander Shylin

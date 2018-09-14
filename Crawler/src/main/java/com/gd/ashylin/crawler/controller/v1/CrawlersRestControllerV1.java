@@ -1,8 +1,8 @@
 package com.gd.ashylin.crawler.controller.v1;
 
-import com.gd.ashylin.crawler.binding.ScrapResultBinding;
-import com.gd.ashylin.crawler.binding.request.v1.LaunchRequestBindingV1;
-import com.gd.ashylin.crawler.binding.response.*;
+import com.gd.ashylin.crawler.bindings.ScrapResultBinding;
+import com.gd.ashylin.crawler.bindings.request.v1.LaunchRequestBindingV1;
+import com.gd.ashylin.crawler.bindings.response.*;
 import com.gd.ashylin.crawler.db.entity.ScrapResult;
 import com.gd.ashylin.crawler.dto.*;
 import com.gd.ashylin.crawler.service.v1.CrawlersService;
